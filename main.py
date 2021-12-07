@@ -9,13 +9,19 @@ from productClass import Product
 
 def main():
     baseUrl = "https://www.amazon.com.au"
+    mainCategory = "electronics"
     productCategory = "Smartwatches"
+    pagesToFetch = 4
     productObjectDataset = []
 
+    print("Processing...")
     ## interate over amazon pages where upper limit is a big number as we donts know how many pages there can be
-    for i in range(1, 100000):
-        urlToFetch = baseUrl + "/s?k=" + productCategory + "&i=electronics&page=" + str(
-            i)
+    for i in range(1, pagesToFetch + 1):
+        urlToFetch = baseUrl + "/s?k=" + productCategory + "&i=" + mainCategory
+        if (i > 1):
+            urlToFetch += "&page=" + str(i)
+        #endif
+
         res = requests.get(urlToFetch)
 
         soup = BeautifulSoup(res.text, 'html.parser')
@@ -23,8 +29,11 @@ def main():
                                    class_='a-link-normal a-text-normal',
                                    href=True)
 
+        print("Fetching: " + urlToFetch)
+
         # breaking the loop if page not found
         if (len(title_cont) == 0):
+            print("Nothing found in: " + str(i))
             break
         #endif
 
@@ -56,7 +65,9 @@ def main():
             #endfor
         #endfor
         productObject.add_reviews(reviews)
-        print(extract_title(productObject) + ": status completed!")
+        print(
+            extract_url(productObject) +
+            ": status completed!, review found :" + str(len(reviews)))
     #endfor
 
     print(len(productObjectDataset))
