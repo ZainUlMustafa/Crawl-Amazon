@@ -13,13 +13,13 @@ def main():
         res = requests.get(urlToFetch)
 
         soup = BeautifulSoup(res.text, 'html.parser')
-        title_cont = soup.find_all('span', class_='a-size-base review-text review-text-content')
+        content = soup.find_all('span', class_='a-size-base review-text review-text-content')
 
-        if (len(title_cont) == 0):
+        if (len(content) == 0):
             break
         #endif
 
-        for title in title_cont:
+        for title in content:
             print(title.text.strip())
         #endfor
     #endfor

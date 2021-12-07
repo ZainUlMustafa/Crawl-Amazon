@@ -24,19 +24,19 @@ def main():
         res = requests.get(urlToFetch)
 
         soup = BeautifulSoup(res.text, 'html.parser')
-        title_cont = soup.find_all('a',
+        content = soup.find_all('a',
                                    class_='a-link-normal a-text-normal',
                                    href=True)
 
         print("Fetching: " + urlToFetch)
 
         # breaking the loop if page not found
-        if (len(title_cont) == 0):
+        if (len(content) == 0):
             print("Nothing found in: " + str(i))
             break
         #endif
 
-        for title in title_cont:
+        for title in content:
             productUrl = baseUrl + title.get('href')
             productTitle = title.text
             productObject = Product(productTitle, productUrl)
@@ -53,13 +53,13 @@ def main():
                 "/dp/", needToReplace) + "?pageNumber=" + str(i)
             res = requests.get(urlToFetch)
             soup = BeautifulSoup(res.text, 'html.parser')
-            title_cont = soup.find_all(
+            content = soup.find_all(
                 'span', class_='a-size-base review-text review-text-content')
-            if (len(title_cont) == 0):
+            if (len(content) == 0):
                 break
             #endif
 
-            for title in title_cont:
+            for title in content:
                 reviews.append(title.text.strip())
             #endfor
         #endfor
@@ -71,9 +71,9 @@ def main():
 
     print(len(productObjectDataset))
     jsonProductObjectDataset = jsonpickle.encode(productObjectDataset)
-    output_file = open('filepath.json', 'w')
-    output_file.write(jsonProductObjectDataset)
-    output_file.close()
+    outputFile = open('filepath.json', 'w')
+    outputFile.write(jsonProductObjectDataset)
+    outputFile.close()
 #enddef
 
 
