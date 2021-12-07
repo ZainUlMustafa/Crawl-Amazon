@@ -3,7 +3,6 @@ import jsonpickle
 import requests
 from datetime import datetime, timedelta
 from textblob import TextBlob
-
 from productClass import Product
 
 
@@ -75,29 +74,21 @@ def main():
     output_file = open('filepath.json', 'w')
     output_file.write(jsonProductObjectDataset)
     output_file.close()
-
-
 #enddef
 
 
 def extract_title(productObject):
     return productObject.title
-
-
 #enddef
 
 
 def extract_url(productObject):
     return productObject.url
-
-
 #enddef
 
 
 def extract_review_list(productObject):
     return productObject.review_list
-
-
 #enddef
 
 if __name__ == "__main__":
